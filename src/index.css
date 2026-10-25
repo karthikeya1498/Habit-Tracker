@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #F7F7F5;
+    --bg-sidebar: #F0F0ED;
+    --bg-card: #FFFFFF;
+    --bg-hover: #EBEBE7;
+    --bg-active: #E4E4DF;
+    --border-subtle: #E4E4E0;
+    --border-strong: #CDCDC8;
+    --text-main: #222222;
+    --text-secondary: #777777;
+    --text-muted: #9C9C96;
+    --accent: #2A2A2A;
+    --accent-hover: #111111;
+
+    --status-success: #2F7C5D;
+    --status-success-bg: #EDF7F2;
+    --status-success-border: #C8E6D8;
+
+    --status-warning: #B87314;
+    --status-warning-bg: #FEF7EC;
+    --status-warning-border: #F7E0B5;
+
+    --status-missed: #BD3D3B;
+    --status-missed-bg: #FDF1F1;
+    --status-missed-border: #F8CDCD;
+  }
+
+  .dark {
+    --bg-main: #141413;
+    --bg-sidebar: #1A1A19;
+    --bg-card: #1F1F1E;
+    --bg-hover: #262624;
+    --bg-active: #2E2E2C;
+    --border-subtle: #2B2B28;
+    --border-strong: #3D3D39;
+    --text-main: #EAEAE7;
+    --text-secondary: #979791;
+    --text-muted: #6B6B65;
+    --accent: #D8D8D4;
+    --accent-hover: #FFFFFF;
+
+    --status-success: #4BA880;
+    --status-success-bg: #152720;
+    --status-success-border: #1E3F32;
+
+    --status-warning: #DE9332;
+    --status-warning-bg: #2B2112;
+    --status-warning-border: #4D391A;
+
+    --status-missed: #E55C5A;
+    --status-missed-bg: #2B1616;
+    --status-missed-border: #4D2121;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar for Notion-like feel */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(150, 150, 150, 0.25);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(150, 150, 150, 0.45);
+  }
+}
