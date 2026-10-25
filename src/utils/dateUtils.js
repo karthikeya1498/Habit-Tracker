@@ -40,6 +40,31 @@ export function addDaysToDateKey(dateKey, amount) {
 }
 
 /**
+ * Checks if a dateKey falls on a weekend (Saturday or Sunday)
+ */
+export function isWeekend(dateKey) {
+  const d = parseDateKey(dateKey);
+  const day = d.getDay(); // 0 is Sunday, 6 is Saturday
+  return day === 0 || day === 6;
+}
+
+/**
+ * Checks if a habit is scheduled for a given dateKey
+ * Supports: 'daily', 'weekends', 'weekdays'
+ */
+export function isHabitScheduledForDate(habit, dateKey) {
+  if (!habit) return true;
+  const schedule = habit.schedule || 'daily';
+  if (schedule === 'weekends') {
+    return isWeekend(dateKey);
+  }
+  if (schedule === 'weekdays') {
+    return !isWeekend(dateKey);
+  }
+  return true;
+}
+
+/**
  * Formats a dateKey into a readable string
  */
 export function formatDisplayDate(dateKey, pattern = 'EEEE, MMM d, yyyy') {
