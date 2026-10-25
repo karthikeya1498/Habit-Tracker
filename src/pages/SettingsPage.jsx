@@ -314,9 +314,9 @@ export function SettingsPage() {
       <ConfirmationDialog
         isOpen={isResetChallengeOpen}
         onClose={() => setIsResetChallengeOpen(false)}
-        onConfirm={() => resetChallenge(getTodayKey())}
-        title="Reset Challenge to Today?"
-        message="This will set Day 1 of the 90-day transformation to today. Your habit configurations will remain intact."
+        onConfirm={() => resetChallenge('2026-10-26')}
+        title="Reset Challenge to Day 1 (Oct 26, 2026)?"
+        message="This will set Day 1 of the 90-day transformation to October 26, 2026 (26/10/26). Your habit configurations will remain intact."
         confirmLabel="Reset Challenge"
       />
 

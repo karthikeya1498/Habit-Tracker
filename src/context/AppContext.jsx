@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { StorageService } from '../services/storage';
-import { getTodayKey, getChallengeStatus } from '../utils/dateUtils';
+import { getTodayKey, getChallengeStatus, isHabitScheduledForDate } from '../utils/dateUtils';
 import { MOTIVATIONAL_QUOTES } from '../utils/defaultData';
 import { exportJourneyToCSV } from '../utils/csvExport';
 
@@ -138,6 +138,7 @@ export function AppProvider({ children }) {
 
     habits.forEach(habit => {
       if (habit.archivedAt) return;
+      if (!isHabitScheduledForDate(habit, today)) return;
       const key = `${habit.id}_${today}`;
       const existing = updatedRecords[key] || {};
       updatedRecords[key] = {
@@ -168,6 +169,7 @@ export function AppProvider({ children }) {
       description: newHabitData.description || '',
       categoryId: newHabitData.categoryId || 'technical',
       trackingType: newHabitData.trackingType || 'binary',
+      schedule: newHabitData.schedule || 'daily',
       targetValue: Number(newHabitData.targetValue) || 1,
       unit: newHabitData.unit || (newHabitData.trackingType === 'duration' ? 'min' : 'session'),
       icon: newHabitData.icon || 'CheckCircle',
@@ -187,6 +189,7 @@ export function AppProvider({ children }) {
         return {
           ...h,
           ...updatedData,
+          schedule: updatedData.schedule || h.schedule || 'daily',
           targetValue: Number(updatedData.targetValue) || h.targetValue,
         };
       }
@@ -293,7 +296,7 @@ export function AppProvider({ children }) {
   }, [habits, records, journal, settings, addToast]);
 
   // Reset challenge dates
-  const resetChallenge = useCallback((newStartDate = getTodayKey()) => {
+  const resetChallenge = useCallback((newStartDate = '2026-10-26') => {
     StorageService.resetChallenge(newStartDate);
     setSettingsState(StorageService.getSettings());
     addToast({ title: 'Challenge reset', message: `90-Day challenge set to start on ${newStartDate}.` });
