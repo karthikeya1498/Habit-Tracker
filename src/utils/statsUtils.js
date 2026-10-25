@@ -1,4 +1,10 @@
-import { getTodayKey, addDaysToDateKey, parseDateKey, generateChallengeDays } from './dateUtils';
+import {
+  getTodayKey,
+  addDaysToDateKey,
+  parseDateKey,
+  generateChallengeDays,
+  isHabitScheduledForDate
+} from './dateUtils';
 import { differenceInCalendarDays, subDays, startOfWeek, endOfWeek } from 'date-fns';
 
 /**
@@ -9,8 +15,8 @@ export function getDailyCompletion(dateKey, habits, records) {
     return { completedCount: 0, totalCount: 0, percentage: 0, isPerfect: false, hasActivity: false };
   }
 
-  // Active habits for this date (excluding archived habits created after date)
-  const activeHabits = habits.filter(h => !h.archivedAt || h.archivedAt > dateKey);
+  // Active habits scheduled for this specific date (e.g. daily habits, plus weekend deep-dives on Sat/Sun)
+  const activeHabits = habits.filter(h => (!h.archivedAt || h.archivedAt > dateKey) && isHabitScheduledForDate(h, dateKey));
   const totalCount = activeHabits.length;
 
   if (totalCount === 0) {
@@ -158,7 +164,7 @@ export function getHabitsCompletedThisWeek(habits, records) {
 
   for (let d = new Date(weekStart); d <= weekEnd; d.setDate(d.getDate() + 1)) {
     const dKey = addDaysToDateKey(getTodayKey(), differenceInCalendarDays(d, now));
-    const activeHabits = habits.filter(h => !h.archivedAt || h.archivedAt > dKey);
+    const activeHabits = habits.filter(h => (!h.archivedAt || h.archivedAt > dKey) && isHabitScheduledForDate(h, dKey));
     activeHabits.forEach(h => {
       totalScheduledThisWeek++;
       const rec = records[`${h.id}_${dKey}`];
@@ -219,6 +225,7 @@ export function getCategoryPerformance(habits, records, startDateKey, rangeDays 
     if (dKey < startDateKey) continue;
 
     habits.forEach(habit => {
+      if (!isHabitScheduledForDate(habit, dKey)) return;
       const cat = categoryStats[habit.categoryId];
       if (cat) {
         cat.total++;
