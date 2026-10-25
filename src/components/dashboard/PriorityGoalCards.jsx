@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Card, Badge, ProgressBar } from '../common/UIElements';
-import { getTodayKey } from '../../utils/dateUtils';
+import { getTodayKey, isHabitScheduledForDate, isWeekend } from '../../utils/dateUtils';
 import { HabitLogModal } from '../habits/HabitLogModal';
 import { Code, MessageSquare, Dumbbell, Check, ChevronRight, Edit3 } from 'lucide-react';
 
@@ -9,7 +9,7 @@ const PRIORITY_META = {
   technical: {
     number: '01',
     title: 'TECHNICAL MASTERY',
-    tagline: 'Learn coding, computer fundamentals, databases, and system design.',
+    tagline: 'Daily coding 3hrs. Weekends: CS Fundamentals, Data Structures, OS & System Design.',
     icon: Code,
   },
   communication: {
@@ -38,6 +38,7 @@ export function PriorityGoalCards() {
 
   const [activeHabitForModal, setActiveHabitForModal] = useState(null);
   const todayKey = getTodayKey();
+  const isWeekendToday = isWeekend(todayKey);
 
   const categories = ['technical', 'communication', 'fitness'];
 
@@ -68,14 +69,15 @@ export function PriorityGoalCards() {
           const catHabits = habits.filter(
             (h) => h.categoryId === catId && (!h.archivedAt || h.archivedAt > todayKey)
           );
+          const scheduledHabits = catHabits.filter(h => isHabitScheduledForDate(h, todayKey));
 
           let completedCount = 0;
-          catHabits.forEach((h) => {
+          scheduledHabits.forEach((h) => {
             const rec = records[`${h.id}_${todayKey}`];
             if (rec && rec.completed) completedCount++;
           });
 
-          const pct = catHabits.length > 0 ? Math.round((completedCount / catHabits.length) * 100) : 0;
+          const pct = scheduledHabits.length > 0 ? Math.round((completedCount / scheduledHabits.length) * 100) : 0;
 
           return (
             <Card
@@ -106,7 +108,7 @@ export function PriorityGoalCards() {
                 {/* Progress bar */}
                 <div className="space-y-1">
                   <div className="flex justify-between items-center text-[10px] font-mono text-content-muted">
-                    <span>{completedCount} of {catHabits.length} habits done</span>
+                    <span>{completedCount} of {scheduledHabits.length} scheduled done</span>
                     <span>{pct}%</span>
                   </div>
                   <ProgressBar
@@ -122,6 +124,7 @@ export function PriorityGoalCards() {
                     const recordKey = `${h.id}_${todayKey}`;
                     const rec = records[recordKey] || { completed: false, actualValue: 0 };
                     const isDone = Boolean(rec.completed);
+                    const isScheduled = isHabitScheduledForDate(h, todayKey);
 
                     return (
                       <div
@@ -129,6 +132,8 @@ export function PriorityGoalCards() {
                         className={`flex items-center justify-between p-2 rounded-lg text-xs transition-colors group/item ${
                           isDone
                             ? 'bg-status-success-bg/40 border border-status-success-border/60 text-content-main'
+                            : !isScheduled
+                            ? 'bg-surface-hover/30 border border-transparent text-content-muted opacity-75'
                             : 'bg-surface-hover/50 hover:bg-surface-hover border border-transparent text-content-secondary'
                         }`}
                       >
@@ -145,14 +150,21 @@ export function PriorityGoalCards() {
                             {isDone && <Check className="w-3 h-3 stroke-[3]" />}
                           </button>
 
-                          <span
-                            onClick={() => setActiveHabitForModal(h)}
-                            className={`truncate cursor-pointer hover:underline ${
-                              isDone ? 'line-through text-content-muted' : 'text-content-main font-medium'
-                            }`}
-                          >
-                            {h.name}
-                          </span>
+                          <div className="flex items-center gap-1.5 truncate">
+                            <span
+                              onClick={() => setActiveHabitForModal(h)}
+                              className={`truncate cursor-pointer hover:underline ${
+                                isDone ? 'line-through text-content-muted' : 'text-content-main font-medium'
+                              }`}
+                            >
+                              {h.name}
+                            </span>
+                            {h.schedule === 'weekends' && (
+                              <span className="text-[9px] font-mono uppercase px-1 py-0.2 rounded bg-surface-hover text-content-muted shrink-0">
+                                {isWeekendToday ? 'Weekend' : 'Wknd'}
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         {/* Value / Logger trigger */}
