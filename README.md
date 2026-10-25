@@ -10,11 +10,12 @@ A personal productivity web application combining the simplicity of Notion, the 
 ## 🎯 The Three Core Pillars
 
 1. **LEARN (Technical Mastery)**
-   - Daily 3-hour deep work coding blocks
-   - Computer Fundamentals (OS, memory, networks, CPU architecture)
-   - Database Learning (SQL, relational modeling, indexing, normalization)
-   - System Design & Distributed Architecture
-   - Build & Practical Project Implementation
+   - **Daily Focus:** 3 hours of dedicated coding deep work every day
+   - **Weekends Only:**
+     - CS Fundamentals & Operating Systems (memory, CPU architecture, processes, networks)
+     - Data Structures & Relational Databases (DS algorithms, SQL, indexing, normalization)
+     - System Design (scalability, caching, microservices, load balancing, trade-offs)
+     - Build & Practical Project Implementation
 
 2. **COMMUNICATE (Communication & Confidence)**
    - Vocal English Speaking practice
