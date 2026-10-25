@@ -15,6 +15,8 @@ import {
   Sparkles
 } from 'lucide-react';
 
+import { isWeekend, isHabitScheduledForDate } from '../../utils/dateUtils';
+
 export function HabitRow({
   habit,
   dateKey,
@@ -32,6 +34,8 @@ export function HabitRow({
   const recordKey = `${habit.id}_${dateKey}`;
   const record = records[recordKey] || { completed: false, actualValue: 0, note: '' };
   const isCompleted = Boolean(record.completed);
+  const isWeekendDay = isWeekend(dateKey);
+  const isScheduledToday = isHabitScheduledForDate(habit, dateKey);
 
   const target = habit.targetValue || 1;
   const actual = record.actualValue || (isCompleted ? target : 0);
@@ -47,6 +51,8 @@ export function HabitRow({
         className={`group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border transition-all duration-150 gap-3 ${
           isCompleted
             ? 'bg-status-success-bg/30 border-status-success-border/70 hover:border-status-success'
+            : !isScheduledToday
+            ? 'bg-surface-card/60 border-surface-border/70 opacity-80 hover:opacity-100'
             : 'bg-surface-card border-surface-border hover:border-surface-border-strong hover:shadow-subtle'
         }`}
       >
@@ -79,7 +85,17 @@ export function HabitRow({
 
               {habit.isPrimary && (
                 <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.2 rounded bg-content-main text-surface-card">
-                  Primary
+                  Daily Anchor
+                </span>
+              )}
+
+              {habit.schedule === 'weekends' && (
+                <span className={`text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.2 rounded border ${
+                  isWeekendDay
+                    ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 font-bold'
+                    : 'bg-surface-hover text-content-muted border-surface-border'
+                }`}>
+                  {isWeekendDay ? 'Weekend Focus' : 'Weekends Only'}
                 </span>
               )}
 

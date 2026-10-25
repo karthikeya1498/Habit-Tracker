@@ -13,6 +13,7 @@ export function HabitModal({
   const [description, setDescription] = useState('');
   const [categoryId, setCategoryId] = useState('technical');
   const [trackingType, setTrackingType] = useState('duration');
+  const [schedule, setSchedule] = useState('daily');
   const [targetValue, setTargetValue] = useState(30);
   const [unit, setUnit] = useState('min');
   const [isPrimary, setIsPrimary] = useState(false);
@@ -23,6 +24,7 @@ export function HabitModal({
       setDescription(habit.description || '');
       setCategoryId(habit.categoryId || 'technical');
       setTrackingType(habit.trackingType || 'duration');
+      setSchedule(habit.schedule || 'daily');
       setTargetValue(habit.targetValue || 30);
       setUnit(habit.unit || 'min');
       setIsPrimary(Boolean(habit.isPrimary));
@@ -31,6 +33,7 @@ export function HabitModal({
       setDescription('');
       setCategoryId('technical');
       setTrackingType('duration');
+      setSchedule('daily');
       setTargetValue(30);
       setUnit('min');
       setIsPrimary(false);
@@ -57,6 +60,7 @@ export function HabitModal({
       description: description.trim(),
       categoryId,
       trackingType,
+      schedule,
       targetValue: Number(targetValue) || 1,
       unit: unit.trim() || 'session',
       isPrimary,
@@ -134,6 +138,29 @@ export function HabitModal({
               <option value="numeric">Numeric (ml, reps, pages)</option>
             </select>
           </div>
+        </div>
+
+        {/* Schedule Frequency */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold uppercase font-mono text-content-main">
+            Schedule Frequency
+          </label>
+          <select
+            value={schedule}
+            onChange={(e) => setSchedule(e.target.value)}
+            className="w-full px-3 py-2 bg-surface-card border border-surface-border rounded-lg text-xs font-medium text-content-main focus:outline-none focus:border-content-main"
+          >
+            <option value="daily">Daily (Every Day)</option>
+            <option value="weekends">Weekends Only (Saturday & Sunday)</option>
+            <option value="weekdays">Weekdays Only (Monday to Friday)</option>
+          </select>
+          <p className="text-[10px] text-content-muted">
+            {schedule === 'weekends'
+              ? 'This habit is scheduled only on Saturday and Sunday (e.g. CS Fundamentals, DS, OS, System Design).'
+              : schedule === 'daily'
+              ? 'This habit is scheduled every single day (e.g. 3-hour daily coding session).'
+              : 'This habit is scheduled Monday through Friday.'}
+          </p>
         </div>
 
         {/* Target Value and Unit */}

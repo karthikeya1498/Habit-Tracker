@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
+import { isHabitScheduledForDate } from '../utils/dateUtils';
 import { DateNavigator } from '../components/habits/DateNavigator';
 import { HabitRow } from '../components/habits/HabitRow';
 import { HabitLogModal } from '../components/habits/HabitLogModal';
@@ -213,7 +214,7 @@ export function HabitsPage() {
                 </div>
 
                 <div className="flex items-center gap-2 text-xs font-mono text-content-secondary">
-                  <span>{completedInCat} / {habitsInCat.length} done</span>
+                  <span>{completedInCat} / {habitsInCat.filter(h => isHabitScheduledForDate(h, selectedDate)).length} scheduled done</span>
                 </div>
               </div>
 
