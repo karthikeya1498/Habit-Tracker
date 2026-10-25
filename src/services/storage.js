@@ -25,12 +25,18 @@ export const StorageService = {
   getSettings() {
     const raw = localStorage.getItem(KEYS.SETTINGS);
     const parsed = safeParse(raw, null);
+    const defaults = getDefaultSettings();
     if (!parsed) {
-      const defaults = getDefaultSettings();
       this.saveSettings(defaults);
       return defaults;
     }
-    return { ...getDefaultSettings(), ...parsed };
+    // Auto-migrate to 2026-10-26 start date if upgrading from 1.0.0
+    if (parsed.version !== '1.1.0') {
+      const upgraded = { ...defaults, ...parsed, startDate: '2026-10-26', version: '1.1.0' };
+      this.saveSettings(upgraded);
+      return upgraded;
+    }
+    return { ...defaults, ...parsed };
   },
 
   saveSettings(settings) {
@@ -47,6 +53,26 @@ export const StorageService = {
     if (!parsed || !Array.isArray(parsed) || parsed.length === 0) {
       this.saveHabits(DEFAULT_HABITS);
       return DEFAULT_HABITS;
+    }
+    // Ensure schedule property is synced from DEFAULT_HABITS
+    let needsSave = false;
+    const synced = parsed.map(h => {
+      const defaultMatch = DEFAULT_HABITS.find(dh => dh.id === h.id);
+      if (defaultMatch && defaultMatch.schedule && h.schedule !== defaultMatch.schedule) {
+        needsSave = true;
+        return {
+          ...h,
+          name: defaultMatch.name,
+          description: defaultMatch.description,
+          schedule: defaultMatch.schedule,
+          targetValue: defaultMatch.targetValue,
+        };
+      }
+      return h;
+    });
+    if (needsSave) {
+      this.saveHabits(synced);
+      return synced;
     }
     return parsed;
   },
