@@ -29,14 +29,15 @@ export function JourneyPage() {
     records,
     weeklyNotes,
     challengeInfo,
+    effectiveTodayKey,
     exportCSV
   } = useApp();
 
   const [selectedDayData, setSelectedDayData] = useState(null);
   const [selectedWeekInfo, setSelectedWeekInfo] = useState(null);
 
-  const days = generateChallengeDays(settings.startDate, settings.durationDays);
-  const weeks = generateChallengeWeeks(settings.startDate, settings.durationDays);
+  const days = generateChallengeDays(settings.startDate, settings.durationDays, effectiveTodayKey);
+  const weeks = generateChallengeWeeks(settings.startDate, settings.durationDays, effectiveTodayKey);
   const todayKey = getTodayKey();
 
   // Find most consistent habit for a given week
@@ -149,7 +150,7 @@ export function JourneyPage() {
                 type="button"
                 onClick={() => setSelectedDayData(day)}
                 title={`Day ${day.dayNumber}: ${day.dateKey} (${dayStatus})`}
-                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-150 hover:scale-105 hover:shadow-subtle cursor-pointer ${dayStyle}`}
+                className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-150 bulge-box-sm cursor-pointer ${dayStyle}`}
               >
                 <span className="text-[10px] font-mono leading-none">D{day.dayNumber}</span>
                 <span className="text-[9px] font-mono opacity-70 mt-1">
@@ -178,6 +179,7 @@ export function JourneyPage() {
             return (
               <Card
                 key={m.day}
+                bulge={true}
                 className={`space-y-2 p-4 transition-all ${
                   isUnlocked
                     ? 'border-status-success-border/70 bg-surface-card'

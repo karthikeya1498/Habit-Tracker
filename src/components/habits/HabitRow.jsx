@@ -48,7 +48,7 @@ export function HabitRow({
   return (
     <>
       <div
-        className={`group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border transition-all duration-150 gap-3 ${
+        className={`group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border transition-all duration-150 gap-3 bulge-box ${
           isCompleted
             ? 'bg-status-success-bg/30 border-status-success-border/70 hover:border-status-success'
             : !isScheduledToday

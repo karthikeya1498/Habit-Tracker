@@ -75,6 +75,7 @@ export function Card({
   className = '',
   onClick,
   hoverable = false,
+  bulge = false,
   ...props
 }) {
   return (
@@ -84,6 +85,7 @@ export function Card({
         clsx(
           'bg-surface-card border border-surface-border rounded-xl p-5 shadow-card transition-all duration-150',
           hoverable && 'hover:border-surface-border-strong hover:shadow-subtle cursor-pointer',
+          bulge && 'bulge-box cursor-pointer hover:border-surface-border-strong',
           className
         )
       )}

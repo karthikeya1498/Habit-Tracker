@@ -2,6 +2,7 @@ import React from 'react';
 import { WelcomeBanner } from '../components/dashboard/WelcomeBanner';
 import { ChallengeCard } from '../components/dashboard/ChallengeCard';
 import { TodayExecutionCard } from '../components/dashboard/TodayExecutionCard';
+import { DayHistoryCard } from '../components/dashboard/DayHistoryCard';
 import { ConsistencyStats } from '../components/dashboard/ConsistencyStats';
 import { PriorityGoalCards } from '../components/dashboard/PriorityGoalCards';
 import { RecentActivity } from '../components/dashboard/RecentActivity';
@@ -22,6 +23,9 @@ export function DashboardPage() {
           <TodayExecutionCard />
         </div>
       </div>
+
+      {/* Day-by-Day Execution History: Clickable past days and what was completed vs missed */}
+      <DayHistoryCard />
 
       {/* 4 Consistency Statistics from real data */}
       <ConsistencyStats />

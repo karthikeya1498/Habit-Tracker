@@ -29,6 +29,10 @@ export function SettingsPage() {
     resetChallenge,
     resetAllData,
     loadDemoData,
+    advanceToNextDay,
+    resetToRealDate,
+    effectiveTodayKey,
+    challengeInfo,
     addToast
   } = useApp();
 
@@ -149,6 +153,55 @@ export function SettingsPage() {
             </Button>
           </div>
         </form>
+      </Card>
+
+      {/* Multi-Day Simulation & Testing */}
+      <Card className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="text-xs font-bold uppercase font-mono tracking-wider text-content-main">
+              Day-by-Day Tracking & Simulation
+            </h2>
+            <p className="text-xs text-content-secondary mt-0.5">
+              Simulate advancing days to test multi-day compounding, Day 1 completion, and historical data storage.
+            </p>
+          </div>
+          {settings.currentDateOverride && (
+            <Badge variant="accent">Simulation Active</Badge>
+          )}
+        </div>
+
+        <div className="p-3 bg-surface-hover/40 rounded-xl border border-surface-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+          <div>
+            <span className="text-content-secondary">Current Active Challenge Day: </span>
+            <strong className="text-content-main font-extrabold text-sm">DAY {challengeInfo.currentDay}</strong>
+            <span className="text-content-muted ml-2">({formatDisplayDate(effectiveTodayKey, 'EEEE, MMM d, yyyy')})</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              icon={Sparkles}
+              onClick={advanceToNextDay}
+            >
+              Advance to Next Day (+1 Day)
+            </Button>
+
+            {settings.currentDateOverride && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                icon={RotateCcw}
+                onClick={resetToRealDate}
+              >
+                Reset to Real Today
+              </Button>
+            )}
+          </div>
+        </div>
       </Card>
 
       {/* Appearance & Interface */}

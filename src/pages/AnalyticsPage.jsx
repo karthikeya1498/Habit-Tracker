@@ -33,7 +33,7 @@ import {
 } from 'lucide-react';
 
 export function AnalyticsPage() {
-  const { habits, records, settings } = useApp();
+  const { habits, records, settings, effectiveTodayKey } = useApp();
   const [trendRange, setTrendRange] = useState('30d'); // '7d' | '30d' | 'all'
 
   // Data calculations
@@ -41,7 +41,7 @@ export function AnalyticsPage() {
   const weeklyData = getWeeklyConsistencyData(habits, records, settings.startDate, settings.durationDays);
   const categoryStats = getCategoryPerformance(habits, records, settings.startDate, 30);
   const heatmapData = getHabitHeatmapData(habits, records, settings.startDate, settings.durationDays);
-  const streaks = calculateStreaks(habits, records, settings.startDate);
+  const streaks = calculateStreaks(habits, records, settings.startDate, effectiveTodayKey);
   const insights = generatePersonalInsights(habits, records, settings.startDate);
 
   // Custom Recharts Tooltip

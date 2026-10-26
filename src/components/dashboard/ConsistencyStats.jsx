@@ -55,7 +55,7 @@ export function ConsistencyStats() {
       {stats.map((item) => {
         const Icon = item.icon;
         return (
-          <Card key={item.id} className="p-4 space-y-2">
+          <Card key={item.id} bulge={true} className="p-4 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-content-muted">
                 {item.label}

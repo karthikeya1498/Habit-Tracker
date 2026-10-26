@@ -49,8 +49,8 @@ export function getDailyCompletion(dateKey, habits, records) {
 /**
  * Calculates current streak, best streak, active days, and perfect days
  */
-export function calculateStreaks(habits, records, startDateKey) {
-  const todayKey = getTodayKey();
+export function calculateStreaks(habits, records, startDateKey, effectiveTodayKey = null) {
+  const todayKey = effectiveTodayKey || getTodayKey();
   const startDate = parseDateKey(startDateKey);
   const todayDate = parseDateKey(todayKey);
 

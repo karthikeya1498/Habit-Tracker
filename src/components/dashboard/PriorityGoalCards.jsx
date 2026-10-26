@@ -82,6 +82,7 @@ export function PriorityGoalCards() {
           return (
             <Card
               key={catId}
+              bulge={true}
               className="flex flex-col justify-between hover:border-surface-border-strong transition-all"
             >
               <div className="space-y-4">

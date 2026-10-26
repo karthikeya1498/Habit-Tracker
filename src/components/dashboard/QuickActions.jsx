@@ -10,17 +10,18 @@ export function QuickActions() {
     completeAllHabitsToday,
     setSelectedDate,
     setActiveTab,
+    effectiveTodayKey,
   } = useApp();
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const handleReviewToday = () => {
-    setSelectedDate(getTodayKey());
+    setSelectedDate(effectiveTodayKey);
     setActiveTab('habits');
   };
 
   const handleAddJournal = () => {
-    setSelectedDate(getTodayKey());
+    setSelectedDate(effectiveTodayKey);
     setActiveTab('journal');
   };
 
@@ -42,7 +43,7 @@ export function QuickActions() {
           {/* Action 1: Complete today's habits with confirmation */}
           <button
             onClick={() => setIsConfirmOpen(true)}
-            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group"
+            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group bulge-box-sm cursor-pointer"
           >
             <div className="p-1.5 rounded-md bg-surface-card text-content-main shadow-subtle group-hover:scale-105 transition-transform">
               <CheckCheck className="w-4 h-4" />
@@ -56,7 +57,7 @@ export function QuickActions() {
           {/* Action 2: Add journal entry */}
           <button
             onClick={handleAddJournal}
-            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group"
+            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group bulge-box-sm cursor-pointer"
           >
             <div className="p-1.5 rounded-md bg-surface-card text-content-main shadow-subtle group-hover:scale-105 transition-transform">
               <BookOpen className="w-4 h-4" />
@@ -70,7 +71,7 @@ export function QuickActions() {
           {/* Action 3: Review today's progress */}
           <button
             onClick={handleReviewToday}
-            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group"
+            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group bulge-box-sm cursor-pointer"
           >
             <div className="p-1.5 rounded-md bg-surface-card text-content-main shadow-subtle group-hover:scale-105 transition-transform">
               <CheckSquare className="w-4 h-4" />
@@ -84,7 +85,7 @@ export function QuickActions() {
           {/* Action 4: View 90-day journey */}
           <button
             onClick={handleViewJourney}
-            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group"
+            className="flex flex-col items-start gap-1.5 p-3 rounded-lg bg-surface-hover/60 hover:bg-surface-hover border border-surface-border text-left transition-all group bulge-box-sm cursor-pointer"
           >
             <div className="p-1.5 rounded-md bg-surface-card text-content-main shadow-subtle group-hover:scale-105 transition-transform">
               <Calendar className="w-4 h-4" />

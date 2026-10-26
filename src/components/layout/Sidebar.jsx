@@ -10,7 +10,8 @@ import {
   Settings,
   RefreshCw,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  PanelLeftClose
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -29,24 +30,45 @@ export function Sidebar() {
     setActiveTab,
     challengeInfo,
     currentQuote,
-    refreshMotivationalQuote
+    refreshMotivationalQuote,
+    isSidebarOpen,
+    toggleSidebar
   } = useApp();
 
   return (
-    <aside className="hidden md:flex flex-col w-64 shrink-0 h-screen sticky top-0 bg-surface-sidebar border-r border-surface-border p-4 select-none justify-between">
+    <aside
+      className={`hidden md:flex flex-col shrink-0 h-screen sticky top-0 bg-surface-sidebar border-r border-surface-border select-none justify-between transition-all duration-300 ease-in-out z-30 ${
+        isSidebarOpen
+          ? 'w-64 p-4 opacity-100 translate-x-0'
+          : 'w-0 p-0 border-r-0 opacity-0 -translate-x-full overflow-hidden pointer-events-none'
+      }`}
+    >
       {/* Brand Header */}
       <div className="space-y-6">
-        <div className="flex items-center gap-3 px-2 pt-2">
-          {/* Minimalist Monochrome Logo */}
-          <div className="w-8 h-8 rounded-lg bg-content-main flex items-center justify-center text-surface-card shadow-sm">
-            <span className="font-mono font-bold text-sm tracking-tighter">90</span>
+        <div className="flex items-center justify-between px-1 pt-1">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {/* Minimalist Monochrome Logo */}
+            <div className="w-8 h-8 rounded-lg bg-content-main flex items-center justify-center text-surface-card shadow-sm shrink-0">
+              <span className="font-mono font-bold text-sm tracking-tighter">90</span>
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-sm font-bold tracking-widest text-content-main uppercase truncate">OBSESSION</h1>
+              <p className="text-[10px] tracking-wider text-content-secondary uppercase font-mono truncate">
+                90-Day Challenge
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-sm font-bold tracking-widest text-content-main uppercase">OBSESSION</h1>
-            <p className="text-[10px] tracking-wider text-content-secondary uppercase font-mono">
-              90-Day Transformation
-            </p>
-          </div>
+
+          {/* Close Sidebar Button */}
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className="p-1.5 rounded-lg text-content-secondary hover:text-content-main hover:bg-surface-hover transition-colors shrink-0"
+            title="Close Side Dashboard (Ctrl+B)"
+            aria-label="Close side dashboard"
+          >
+            <PanelLeftClose className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Navigation Items */}

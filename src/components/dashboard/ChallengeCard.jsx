@@ -68,7 +68,7 @@ export function ChallengeCard() {
   }
 
   return (
-    <Card className="space-y-4">
+    <Card bulge={true} className="space-y-4">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="flex items-center gap-2">

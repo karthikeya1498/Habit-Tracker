@@ -8,6 +8,7 @@ const KEYS = {
   JOURNAL: 'obsession_journal_v1',
   SETTINGS: 'obsession_settings_v1',
   WEEKLY_NOTES: 'obsession_weekly_notes_v1',
+  DAY_SUMMARIES: 'obsession_day_summaries_v1',
 };
 
 // Safe JSON parser
@@ -204,10 +205,56 @@ export const StorageService = {
     return notes;
   },
 
+  /**
+   * Day Summaries:
+   * Stores complete frozen snapshot of each finalized day:
+   * {
+   *   [dateKey]: {
+   *     dateKey: string,
+   *     dayNumber: number,
+   *     completedCount: number,
+   *     missedCount: number,
+   *     totalCount: number,
+   *     percentage: number,
+   *     isPerfect: boolean,
+   *     finalizedAt: string,
+   *     journalExcerpt?: string
+   *   }
+   * }
+   */
+  getDaySummaries() {
+    const raw = localStorage.getItem(KEYS.DAY_SUMMARIES);
+    return safeParse(raw, {});
+  },
+
+  saveDaySummaries(summaries) {
+    try {
+      localStorage.setItem(KEYS.DAY_SUMMARIES, JSON.stringify(summaries));
+    } catch (e) {
+      console.error('Failed to save day summaries:', e);
+    }
+  },
+
+  saveDaySummary(dateKey, summary) {
+    const summaries = this.getDaySummaries();
+    summaries[dateKey] = {
+      dateKey,
+      ...summary,
+      finalizedAt: summary.finalizedAt || new Date().toISOString()
+    };
+    this.saveDaySummaries(summaries);
+    return summaries;
+  },
+
+  getDaySummary(dateKey) {
+    const summaries = this.getDaySummaries();
+    return summaries[dateKey] || null;
+  },
+
   // Export full JSON bundle
   exportAllData() {
     const data = {
-      schemaVersion: '1.0.0',
+      schemaVersion: '1.2.0',
       exportedAt: new Date().toISOString(),
       appName: 'OBSESSION',
       settings: this.getSettings(),
@@ -216,6 +263,7 @@ export const StorageService = {
       records: this.getRecords(),
       journal: this.getJournal(),
       weeklyNotes: this.getWeeklyNotes(),
+      daySummaries: this.getDaySummaries(),
     };
     return JSON.stringify(data, null, 2);
   },
@@ -243,6 +291,7 @@ export const StorageService = {
       if (data.records) this.saveRecords(data.records);
       if (data.journal) this.saveJournal(data.journal);
       if (data.weeklyNotes) this.saveWeeklyNotes(data.weeklyNotes);
+      if (data.daySummaries) this.saveDaySummaries(data.daySummaries);
 
       return {
         success: true,
@@ -250,6 +299,7 @@ export const StorageService = {
           habits: data.habits ? data.habits.length : 0,
           records: data.records ? Object.keys(data.records).length : 0,
           journalEntries: data.journal ? Object.keys(data.journal).length : 0,
+          daySummaries: data.daySummaries ? Object.keys(data.daySummaries).length : 0,
         }
       };
     } catch (err) {
@@ -272,6 +322,7 @@ export const StorageService = {
     localStorage.removeItem(KEYS.JOURNAL);
     localStorage.removeItem(KEYS.SETTINGS);
     localStorage.removeItem(KEYS.WEEKLY_NOTES);
+    localStorage.removeItem(KEYS.DAY_SUMMARIES);
   },
 
   // Generates realistic sample data for previous days to allow immediate testing of streaks and charts

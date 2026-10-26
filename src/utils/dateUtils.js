@@ -79,8 +79,8 @@ export function formatDisplayDate(dateKey, pattern = 'EEEE, MMM d, yyyy') {
 /**
  * Calculate challenge day and status from start date and duration
  */
-export function getChallengeStatus(startDateKey, durationDays = 90) {
-  const todayKey = getTodayKey();
+export function getChallengeStatus(startDateKey, durationDays = 90, effectiveTodayKey = null) {
+  const todayKey = effectiveTodayKey || getTodayKey();
   const startDate = parseDateKey(startDateKey);
   const todayDate = parseDateKey(todayKey);
 
@@ -131,8 +131,8 @@ export function getChallengeStatus(startDateKey, durationDays = 90) {
 /**
  * Generate all 90 days of the challenge with metadata
  */
-export function generateChallengeDays(startDateKey, durationDays = 90) {
-  const todayKey = getTodayKey();
+export function generateChallengeDays(startDateKey, durationDays = 90, effectiveTodayKey = null) {
+  const todayKey = effectiveTodayKey || getTodayKey();
   const startDate = parseDateKey(startDateKey);
   const days = [];
 
@@ -160,8 +160,8 @@ export function generateChallengeDays(startDateKey, durationDays = 90) {
 /**
  * Generate weekly breakdown chunks
  */
-export function generateChallengeWeeks(startDateKey, durationDays = 90) {
-  const days = generateChallengeDays(startDateKey, durationDays);
+export function generateChallengeWeeks(startDateKey, durationDays = 90, effectiveTodayKey = null) {
+  const days = generateChallengeDays(startDateKey, durationDays, effectiveTodayKey);
   const weeks = [];
   const totalWeeks = Math.ceil(durationDays / 7);
 

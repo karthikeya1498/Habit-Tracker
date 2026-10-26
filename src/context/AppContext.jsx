@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { StorageService } from '../services/storage';
-import { getTodayKey, getChallengeStatus, isHabitScheduledForDate } from '../utils/dateUtils';
+import {
+  getTodayKey,
+  getChallengeStatus,
+  isHabitScheduledForDate,
+  addDaysToDateKey,
+  parseDateKey
+} from '../utils/dateUtils';
+import { differenceInCalendarDays } from 'date-fns';
 import { MOTIVATIONAL_QUOTES } from '../utils/defaultData';
 import { exportJourneyToCSV } from '../utils/csvExport';
 
@@ -13,11 +20,49 @@ export function AppProvider({ children }) {
   const [records, setRecordsState] = useState(() => StorageService.getRecords());
   const [journal, setJournalState] = useState(() => StorageService.getJournal());
   const [weeklyNotes, setWeeklyNotesState] = useState(() => StorageService.getWeeklyNotes());
+  const [daySummaries, setDaySummariesState] = useState(() => StorageService.getDaySummaries());
+
+  const effectiveTodayKey = useMemo(() => {
+    return settings.currentDateOverride || getTodayKey();
+  }, [settings.currentDateOverride]);
 
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [selectedDate, setSelectedDate] = useState(getTodayKey());
+  const [selectedDate, setSelectedDate] = useState(() => settings.currentDateOverride || getTodayKey());
   const [toasts, setToasts] = useState([]);
   const [quoteIndex, setQuoteIndex] = useState(0);
+
+  // Flexible side dashboard state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    try {
+      return localStorage.getItem('obsession_sidebar_open') !== 'false';
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarOpen(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('obsession_sidebar_open', String(next));
+      } catch (e) {
+        console.error('Failed to save sidebar state:', e);
+      }
+      return next;
+    });
+  }, []);
+
+  // Keyboard shortcut Ctrl+B / Cmd+B to toggle side dashboard
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B')) {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleSidebar]);
 
   // Apply dark mode theme class to html root
   useEffect(() => {
@@ -132,18 +177,16 @@ export function AppProvider({ children }) {
   }, [habits, addToast]);
 
   // Complete all habits today with confirmation
-  const completeAllHabitsToday = useCallback(() => {
-    const today = getTodayKey();
+  const completeAllHabitsToday = useCallback((targetDate = selectedDate) => {
+    const activeHabits = habits.filter(h => (!h.archivedAt || h.archivedAt > targetDate) && isHabitScheduledForDate(h, targetDate));
     const updatedRecords = { ...records };
 
-    habits.forEach(habit => {
-      if (habit.archivedAt) return;
-      if (!isHabitScheduledForDate(habit, today)) return;
-      const key = `${habit.id}_${today}`;
+    activeHabits.forEach(habit => {
+      const key = `${habit.id}_${targetDate}`;
       const existing = updatedRecords[key] || {};
       updatedRecords[key] = {
         habitId: habit.id,
-        dateKey: today,
+        dateKey: targetDate,
         completed: true,
         actualValue: habit.targetValue || 1,
         note: existing.note || '',
@@ -155,11 +198,105 @@ export function AppProvider({ children }) {
     StorageService.saveRecords(updatedRecords);
     setRecordsState(updatedRecords);
     addToast({
-      title: "Today's Execution Complete",
-      message: 'All scheduled habits for today marked as completed.',
+      title: "All Habits Marked Completed",
+      message: `All scheduled habits for ${targetDate === effectiveTodayKey ? 'today' : targetDate} marked complete.`,
       type: 'success'
     });
-  }, [habits, records, addToast]);
+  }, [habits, records, selectedDate, effectiveTodayKey, addToast]);
+
+  // Finalize Day Snapshot (stores what was completed and what was NOT completed)
+  const finalizeDay = useCallback((targetDate = selectedDate) => {
+    const activeHabits = habits.filter(h => (!h.archivedAt || h.archivedAt > targetDate) && isHabitScheduledForDate(h, targetDate));
+    const totalCount = activeHabits.length;
+    let completedCount = 0;
+    let missedCount = 0;
+    const updatedRecords = { ...records };
+
+    activeHabits.forEach(habit => {
+      const recKey = `${habit.id}_${targetDate}`;
+      const rec = updatedRecords[recKey];
+      if (rec && rec.completed) {
+        completedCount++;
+      } else {
+        missedCount++;
+        // Explicitly freeze and record incomplete/missed habits
+        updatedRecords[recKey] = {
+          habitId: habit.id,
+          dateKey: targetDate,
+          completed: false,
+          actualValue: rec?.actualValue || 0,
+          note: rec?.note || '',
+          words: rec?.words || [],
+          status: 'missed',
+          updatedAt: new Date().toISOString()
+        };
+      }
+    });
+
+    StorageService.saveRecords(updatedRecords);
+    setRecordsState(updatedRecords);
+
+    const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+    const isPerfect = totalCount > 0 && completedCount === totalCount;
+    const journalEntry = journal[targetDate];
+
+    const dayDiff = differenceInCalendarDays(parseDateKey(targetDate), parseDateKey(settings.startDate));
+    const dayNumber = Math.max(1, dayDiff + 1);
+
+    const summary = {
+      dateKey: targetDate,
+      dayNumber,
+      completedCount,
+      missedCount,
+      totalCount,
+      percentage,
+      isPerfect,
+      journalExcerpt: journalEntry?.content ? journalEntry.content.slice(0, 120) : '',
+      finalizedAt: new Date().toISOString()
+    };
+
+    const updatedSummaries = StorageService.saveDaySummary(targetDate, summary);
+    setDaySummariesState({ ...updatedSummaries });
+
+    addToast({
+      title: `Day ${dayNumber} Execution Stored`,
+      message: `${completedCount} completed, ${missedCount} missed (${percentage}%). Day record permanently saved!`,
+      type: isPerfect ? 'success' : 'info'
+    });
+
+    return summary;
+  }, [selectedDate, habits, records, journal, settings.startDate, addToast]);
+
+  // Advance to next challenge day (e.g. Day 1 -> Day 2)
+  const advanceToNextDay = useCallback(() => {
+    const nextDate = addDaysToDateKey(effectiveTodayKey, 1);
+    const updated = { ...settings, currentDateOverride: nextDate };
+    setSettingsState(updated);
+    StorageService.saveSettings(updated);
+    setSelectedDate(nextDate);
+    const dayDiff = differenceInCalendarDays(parseDateKey(nextDate), parseDateKey(settings.startDate));
+    const nextDayNum = Math.max(1, dayDiff + 1);
+    addToast({
+      title: `Advanced to Day ${nextDayNum}`,
+      message: `Active tracking date moved to ${nextDate}.`,
+      type: 'info'
+    });
+  }, [effectiveTodayKey, settings, addToast]);
+
+  // Reset to system local calendar date
+  const resetToRealDate = useCallback(() => {
+    const updated = { ...settings };
+    delete updated.currentDateOverride;
+    setSettingsState(updated);
+    StorageService.saveSettings(updated);
+    const realToday = getTodayKey();
+    setSelectedDate(realToday);
+    addToast({
+      title: 'Reset to Real Date',
+      message: `Calendar returned to local system date (${realToday}).`,
+      type: 'info'
+    });
+  }, [settings, addToast]);
 
   // Habit Management: Add, Edit, Archive, Delete, Reorder
   const addHabit = useCallback((newHabitData) => {
@@ -279,6 +416,7 @@ export function AppProvider({ children }) {
       setRecordsState(StorageService.getRecords());
       setJournalState(StorageService.getJournal());
       setWeeklyNotesState(StorageService.getWeeklyNotes());
+      setDaySummariesState(StorageService.getDaySummaries());
       addToast({
         title: 'Import successful',
         message: `Restored ${res.summary.habits} habits, ${res.summary.records} records, ${res.summary.journalEntries} journal entries.`
@@ -311,6 +449,7 @@ export function AppProvider({ children }) {
     setRecordsState(StorageService.getRecords());
     setJournalState(StorageService.getJournal());
     setWeeklyNotesState(StorageService.getWeeklyNotes());
+    setDaySummariesState({});
     addToast({ title: 'Data reset', message: 'All local records restored to fresh initial state.', type: 'warning' });
   }, [addToast]);
 
@@ -321,6 +460,7 @@ export function AppProvider({ children }) {
     setHabitsState(demo.habits);
     setRecordsState(demo.records);
     setJournalState(demo.journal);
+    setDaySummariesState(StorageService.getDaySummaries());
     addToast({
       title: 'Demo Data Loaded',
       message: 'Past 14 days populated with realistic habits, streaks, and journal logs.'
@@ -328,8 +468,8 @@ export function AppProvider({ children }) {
   }, [addToast]);
 
   const challengeInfo = useMemo(() => {
-    return getChallengeStatus(settings.startDate, settings.durationDays);
-  }, [settings.startDate, settings.durationDays]);
+    return getChallengeStatus(settings.startDate, settings.durationDays, effectiveTodayKey);
+  }, [settings.startDate, settings.durationDays, effectiveTodayKey]);
 
   const currentQuote = MOTIVATIONAL_QUOTES[quoteIndex] || MOTIVATIONAL_QUOTES[0];
 
@@ -340,6 +480,11 @@ export function AppProvider({ children }) {
     records,
     journal,
     weeklyNotes,
+    daySummaries,
+    effectiveTodayKey,
+    isSidebarOpen,
+    toggleSidebar,
+    setIsSidebarOpen,
     activeTab,
     setActiveTab,
     selectedDate,
@@ -354,6 +499,9 @@ export function AppProvider({ children }) {
     toggleHabitComplete,
     updateHabitProgress,
     completeAllHabitsToday,
+    finalizeDay,
+    advanceToNextDay,
+    resetToRealDate,
     addHabit,
     editHabit,
     archiveHabit,
