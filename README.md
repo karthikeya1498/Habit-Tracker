@@ -6,8 +6,10 @@
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Privacy First](https://img.shields.io/badge/Data-100%25_Local_Storage-8B5CF6?style=for-the-badge)](https://frolicking-toffee-eec94b.netlify.app)
+[![Architecture PDF](https://img.shields.io/badge/Architecture_PDF-Download_Guide-18181b?style=for-the-badge&logo=adobeacrobatreader&logoColor=red)](https://frolicking-toffee-eec94b.netlify.app/OBSESSION_Architecture_and_Interview_Guide.pdf)
 
 > 🚀 **Live Application:** [https://frolicking-toffee-eec94b.netlify.app](https://frolicking-toffee-eec94b.netlify.app)  
+> 📄 **Architecture & Interview Guide (PDF):** [Download 6-Page Handbook](https://frolicking-toffee-eec94b.netlify.app/OBSESSION_Architecture_and_Interview_Guide.pdf)  
 > *A high-performance personal operating system and habit transformation workspace combining the structured database feel of Notion with the sleek, high-craft aesthetics of Linear.*
 
 ---
