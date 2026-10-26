@@ -1,145 +1,234 @@
-# OBSESSION — 90-Day Personal Transformation Workspace
+# OBSESSION — Personal Habit & Challenge Tracking Workspace
 
-> **"Take on Action. 3 Months."**  
-> *"Become the person your goals demand."*
+[![Deployed on Netlify](https://img.shields.io/badge/Deployed%20on-Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://frolicking-toffee-eec94b.netlify.app)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-059669?style=for-the-badge&logo=google-chrome&logoColor=white)](https://frolicking-toffee-eec94b.netlify.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Privacy First](https://img.shields.io/badge/Data-100%25_Local_Storage-8B5CF6?style=for-the-badge)](https://frolicking-toffee-eec94b.netlify.app)
 
-A personal productivity web application combining the simplicity of Notion, the visual polish of Linear, and the progress-tracking experience of a personal operating system.
-
----
-
-## 🎯 The Three Core Pillars
-
-1. **LEARN (Technical Mastery)**
-   - **Daily Focus:** 3 hours of dedicated coding deep work every day
-   - **Weekends Only:**
-     - CS Fundamentals & Operating Systems (memory, CPU architecture, processes, networks)
-     - Data Structures & Relational Databases (DS algorithms, SQL, indexing, normalization)
-     - System Design (scalability, caching, microservices, load balancing, trade-offs)
-     - Build & Practical Project Implementation
-
-2. **COMMUNICATE (Communication & Confidence)**
-   - Vocal English Speaking practice
-   - Sentence Shadowing for cadence and accent rhythm
-   - High-impact vocabulary builder (with definitions and illustrative sentences)
-   - Real-World public speaking attempts
-   - Daily out-of-comfort-zone Confidence Challenges
-
-3. **TRAIN (Athletic Physique)**
-   - Athletic resistance training and conditioning
-   - Clean whole-foods nutrition & avoiding junk food
-   - Daily hydration tracking (ml / L)
-   - Deep sleep & neural recovery tracking (8 hours)
-   - Weekly fitness, weight, and energy reviews
+> 🚀 **Live Application:** [https://frolicking-toffee-eec94b.netlify.app](https://frolicking-toffee-eec94b.netlify.app)  
+> *A high-performance personal operating system and habit transformation workspace combining the structured database feel of Notion with the sleek, high-craft aesthetics of Linear.*
 
 ---
 
-## ✨ Features & Architecture
+## 📖 About the Project
 
-### 1. Dashboard
-- **Dynamic Welcome & rotating motivational statements**: Real-time quotes focused on discipline and execution.
-- **90-Day Challenge Timeline**: Displays challenge start, target end date, current day, days completed/remaining, and progress bar. Handles start and completed states.
-- **Today's Execution Card**: Live completion ratio, percentage, and circular progress indicator.
-- **Today's Priority Cards**: Instant habit check-off, progress meters, and numerical logging.
-- **Consistency Statistics**: Current streak, all-time best streak, habits completed this week, and overall completion rate derived from saved data.
-- **Recent Activity Log & Quick Actions**: Fast actions with confirmation dialogs.
+**OBSESSION** is a modern, responsive Single Page Application (SPA) designed to help individuals execute focused personal transformation sprints (such as 90-day challenges) and cultivate lasting daily habits. 
 
-### 2. Daily Habits Database
-- Date navigator with prev/next controls, calendar date picker, and quick return to today.
-- Notion-style database layout grouped by the 3 core transformation pillars.
-- Category filters, completion status filters (All / Pending / Done), and live text search.
-- Habit ordering (move up/down within category).
-- Habit creation, editing, archiving, and deletion with confirmation modals.
-- Comprehensive logging modal for tracking durations, vocabulary words, numbers, and notes.
+Rather than relying on generic to-do lists or rigid habit apps, OBSESSION acts as a personal productivity dashboard that unifies **custom multi-category habit management**, **multi-modal progress tracking**, **a visual 90-day journey matrix**, **guided daily journaling**, and **deep performance analytics**—all running completely client-side with 100% user data privacy.
 
-### 3. 90-Day Visual Journey
-- **90-Day Grid Matrix**: Interactive status view for all 90 days (Completed, Partial, Missed, Today, Future).
-- **Day Detail Modal**: Click any day to inspect completed habits, notes, and reflection journals.
-- **13 Weekly Sprints**: Weekly completion rates, top anchor habits, and editable weekly reflection reviews.
-- **Progressive Milestones**: Unlocks at Day 7, 14, 30, 45, 60, 75, and 90 based on elapsed challenge days.
-- **CSV Export**: One-click download of the complete 90-day progress spreadsheet.
-
-### 4. Pillar Goals
-- Detailed transformation cards with objectives, associated habits, today's rate, 30-day consistency, success criteria, and editable notes.
-
-### 5. Performance Analytics
-- **Recharts Line Chart**: Daily completion trends over 7 days, 30 days, or all 90 days.
-- **Recharts Bar Chart**: Weekly consistency comparison across weeks 1 to 13.
-- **Pillar Performance Bars**: Relative consistency breakdown across Technical, Communication, and Athletic pillars.
-- **GitHub-Style Heatmap**: 90-day matrix with 5 intensity levels and hover tooltips.
-- **Personal Insights**: Dynamic, rule-based observations generated directly from your saved data without external AI APIs.
-
-### 6. Daily Journal
-- Notion-inspired distraction-free editor.
-- 5 guided daily reflection prompts for self-review.
-- Debounced autosave with real-time saving/saved indicator.
-- Live character count, word count, and reflection completion badge.
-- Hashtag tagging and historical search modal.
-- Export single entry or full journal archive as Markdown.
-
-### 7. Settings & Data Portability
-- Configurable challenge start date and duration.
-- Theme switching: **Light**, **Dark**, and **System** mode with custom Notion-inspired color tokens.
-- Complete JSON backup export and import with schema validation.
-- Sample demonstration data generator for immediate testing.
-- Danger zone challenge and data resets with confirmation dialogs.
+### Why OBSESSION?
+- **All-in-One Transformation OS:** Replaces fragmented spreadsheets, journals, and habit apps with a unified, cohesive workspace.
+- **Customizable Pillars:** Organize habits around your own life pillars (e.g., Technical Mastery, Health & Fitness, Communication, Mindset, Creative Projects).
+- **Multi-Modal Tracking:** Supports simple boolean completions (checkmarks), timed duration habits (in minutes/hours), and quantitative numerical metrics (pages, milliliters, repetitions).
+- **Visual Accountability:** Features an interactive 90-day matrix grid, 13 weekly sprint retrospectives, unlockable progressive milestones, and GitHub-style consistency heatmaps.
+- **100% Private & Offline-Capable:** No servers, no tracking, and no account creation. All data is saved directly in browser `localStorage` with full JSON and CSV export/import capabilities.
 
 ---
 
-## 🛠️ Technology Stack
+## 🌐 Live Demo
 
-- **Frontend**: React 19 + Vite 8
-- **Language**: JavaScript (ES modules)
-- **Styling**: Tailwind CSS with custom CSS variables
-- **Icons**: Lucide React
-- **Charts**: Recharts
-- **Date Handling**: date-fns
-- **Persistence**: LocalStorage with schema versioning (`v1`)
+The project is continuously deployed on **Netlify**:
+
+👉 **[https://frolicking-toffee-eec94b.netlify.app](https://frolicking-toffee-eec94b.netlify.app)**
 
 ---
 
-## 🚀 Getting Started
+## 💻 Languages & Technologies Used
+
+### Core Languages
+| Technology | Description |
+| :--- | :--- |
+| **JavaScript (ES6+)** | Core application logic, modular ES modules, custom hooks, and algorithmic statistics processing |
+| **HTML5** | Semantic structure, accessible landmarks, and responsive viewport meta configurations |
+| **CSS3** | Modern layouts with Flexbox and CSS Grid, responsive design, custom variables, and keyframe animations |
+
+### Frameworks & Libraries
+| Technology | Version | Purpose |
+| :--- | :--- | :--- |
+| **[React](https://react.dev/)** | `^19.3.1` | Declarative component-driven UI architecture, Context API, and state hooks |
+| **[Vite](https://vitejs.dev/)** | `^8.3.4` | Ultra-fast development server with Hot Module Replacement (HMR) and optimized Rollup production builds |
+| **[Tailwind CSS](https://tailwindcss.com/)** | `^3.4.17` | Utility-first styling engine with custom theme tokens (Light, Dark, and System modes) |
+| **[Recharts](https://recharts.org/)** | `^3.10.1` | Composable charting library for daily trends, weekly sprint comparisons, and consistency analytics |
+| **[Lucide React](https://lucide.dev/)** | `^1.61.0` | Crisp, modern iconography across all navigation and feature cards |
+| **[date-fns](https://date-fns.org/)** | `^4.4.0` | Comprehensive date manipulation, ISO date keys, leap year handling, and calendar math |
+| **[clsx](https://github.com/lukeed/clsx) & [tailwind-merge](https://github.com/dcastil/tailwind-merge)** | `^2.1.1` / `^3.7.0` | Dynamic conditional class merging without Tailwind utility conflicts |
+| **[Oxlint](https://oxc.rs/)** | `^1.88.0` | Ultra-fast Rust-based linter ensuring clean, maintainable code quality |
+
+---
+
+## ⚙️ Technical Architecture & Key Features
+
+### 1. Centralized State Management (`React Context API`)
+- **Single Source of Truth:** Managed through `AppContext.jsx` using React Context to provide reactive access to habits, categories, daily execution logs, challenge settings, journal entries, and weekly reflections.
+- **Optimistic Updates & Toast Notifications:** Interactive checks, habit edits, and logging triggers execute instantaneously with feedback toasts.
+
+### 2. Robust Local Persistence & Data Portability (`storage.js`)
+- **Versioned Schema (`STORAGE_VERSION = 'v1'`):** Automatically checks schema compatibility, populates defaults upon initial load, and defends against corrupt states.
+- **Debounced Writes:** Journal autosave and frequent habit toggle events are debounced to ensure fluid rendering without UI frame drops.
+- **JSON Backup & Restore:** Complete export of user data into a JSON file, paired with an import parser that validates data integrity before restoring.
+- **CSV Data Export:** One-click spreadsheet export generating detailed logs across all challenge days for spreadsheet analysis.
+
+### 3. Multi-Modal Daily Habits Database (`HabitsPage.jsx`)
+- **Category Grouping:** Group habits by customizable life pillars with priority badges and icons.
+- **Flexible Scheduling:** Define habits as **Daily**, **Weekdays Only**, **Weekends Only**, or custom frequencies.
+- **Tracking Types:**
+  - **Boolean Checkbox:** Simple one-click completion.
+  - **Duration:** Track time spent (e.g. 30 min, 60 min, 180 min) with target values and custom units.
+  - **Numeric Quantity:** Track quantitative metrics (e.g. 3000 ml water, 20 pages read, 50 pushups).
+- **Organization Tools:** Reorder habits within categories, filter by status (`All`, `Pending`, `Done`), and live text search across titles and descriptions.
+
+### 4. Interactive 90-Day Visual Journey (`JourneyPage.jsx`)
+- **90-Day Grid Matrix:** Visual grid mapping all 90 days with status coloring: *Completed*, *Partial*, *Missed*, *Today*, and *Future*.
+- **Day Detail Modal:** Click any day on the grid to inspect the exact completed habits, numerical metrics logged, and associated journal reflections.
+- **13 Weekly Sprints:** Aggregates weekly completion percentages, highlights anchor habits, and provides an editable sprint reflection review modal.
+- **Milestone Progression:** Milestone badges unlocking at Days 7, 14, 30, 45, 60, 75, and 90 as you progress through the timeline.
+
+### 5. Performance Analytics & Insights (`AnalyticsPage.jsx`)
+- **Line Trends:** Interactive Recharts line chart illustrating daily completion rates across 7-day, 30-day, or full 90-day timelines.
+- **Weekly Bar Chart:** Consistency comparison across all 13 challenge weeks.
+- **Pillar Breakdown:** Horizontal progress comparison bars measuring consistency across each life category.
+- **GitHub-Style Heatmap:** 90-day activity matrix with 5 intensity gradients reflecting daily completion density.
+- **Rule-Based Insights Engine:** Algorithmic observations computed purely on local device data, highlighting best days, streak patterns, and habit consistency without external AI or backend dependencies.
+
+### 6. Distraction-Free Daily Journal (`JournalPage.jsx`)
+- **Notion-Inspired Editor:** Minimalist, clean writing environment with real-time character and word counters.
+- **5 Guided Reflection Prompts:** Built-in prompts for daily review, gratitude, lessons learned, and tomorrow's focus.
+- **Hashtag System & Search:** Automatic tag detection with a searchable archive modal to quickly find historical reflections by tag or keyword.
+- **Markdown Export:** Download individual daily entries or full journal archives as `.md` files.
+
+### 7. Custom Design System & Theme Engine
+- **Dark, Light, and System Modes:** Instant theme switching adhering to user OS preferences or explicit choice.
+- **Linear-Inspired Typography & Glassmorphism:** Styled with Google Fonts (`Plus Jakarta Sans` and `JetBrains Mono`), sleek border contrasts, and smooth micro-interactions.
+
+---
+
+## 📁 Project Directory Structure
+
+```text
+Habit-Tracker/
+├── index.html                   # HTML5 entry template with font links & metadata
+├── netlify.toml                 # Netlify deployment configuration & SPA rewrite rules
+├── package.json                 # Project dependencies, scripts, and metadata
+├── postcss.config.js            # PostCSS plugin configuration
+├── tailwind.config.js           # Tailwind design tokens, typography, and theme setup
+├── vite.config.js               # Vite bundler configuration with React plugin
+├── public/                      # Static web assets
+└── src/
+    ├── main.jsx                 # Application entry mount point
+    ├── App.jsx                  # Main routing and layout orchestration
+    ├── index.css                # Global design system tokens and Tailwind directives
+    ├── components/
+    │   ├── common/              # Modal, ConfirmationDialog, Toast, and shared UI elements
+    │   ├── dashboard/           # Welcome banner, Challenge card, Priority cards, Stats
+    │   ├── goals/               # Pillar goal management and editing modals
+    │   ├── habits/              # Date navigator, Habit rows, Creation & Log modals
+    │   ├── journey/             # 90-day grid matrix, Day detail & Weekly reflection modals
+    │   └── layout/              # Responsive Sidebar, Mobile navigation, App layout
+    ├── context/
+    │   └── AppContext.jsx       # Central state store, custom reducer, and action dispatchers
+    ├── pages/
+    │   ├── DashboardPage.jsx    # Primary overview and daily execution summary
+    │   ├── HabitsPage.jsx       # Daily habits database with category filters
+    │   ├── JourneyPage.jsx      # 90-day matrix, milestones, and 13 weekly sprints
+    │   ├── GoalsPage.jsx        # Pillar goals and category management
+    │   ├── AnalyticsPage.jsx    # Recharts trends, GitHub-style heatmap, and insights
+    │   ├── JournalPage.jsx      # Daily reflection editor with prompts & tag search
+    │   └── SettingsPage.jsx     # Challenge configuration, theme toggle, and JSON backup
+    ├── services/
+    │   └── storage.js           # LocalStorage wrapper, schema versioning, and JSON export/import
+    └── utils/
+        ├── csvExport.js         # CSV spreadsheet generation utility
+        ├── dateUtils.js         # Date formatting, comparison, and challenge day math
+        ├── defaultData.js       # Out-of-the-box categories, sample habits, and quotes
+        └── statsUtils.js        # Streak calculations, completion rates, and insights engine
+```
+
+---
+
+## 🚀 Getting Started Locally
 
 ### Prerequisites
 
-Ensure you have [Node.js](https://nodejs.org/) installed (v18 or higher recommended).
+Make sure you have **Node.js** installed on your machine (version 18 or higher is recommended):
+```bash
+node -v
+npm -v
+```
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/karthikeya1498/Habit-Tracker.git
    cd Habit-Tracker
    ```
 
-2. Install dependencies:
+2. **Install project dependencies:**
    ```bash
    npm install
    ```
 
-3. Run the development server:
+3. **Start the local development server:**
    ```bash
    npm run dev
    ```
 
-4. Open your browser and navigate to:
-   ```
+4. **Open your browser and navigate to:**
+   ```text
    http://localhost:5173/
    ```
 
 ### Building for Production
 
-To create an optimized production build:
+To produce an optimized production bundle in the `dist` folder:
 ```bash
 npm run build
 ```
 
-Preview the production build:
+To preview the built production bundle locally:
 ```bash
 npm run preview
 ```
 
+### Linting
+
+Run Oxlint to check code quality:
+```bash
+npm run lint
+```
+
 ---
 
-## 🔒 Privacy & Data Storage
+## 🌐 Netlify Deployment
 
-All transformation data is stored purely within the browser's `localStorage`. No external tracking, paid APIs, or third-party servers are involved. To backup or transfer your progress to another machine, use the **Export JSON Backup** feature in Settings.
+This repository includes a pre-configured `netlify.toml` file for automatic continuous deployment.
+
+### `netlify.toml` Configuration:
+```toml
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+This ensures that all Single Page Application client-side routes redirect seamlessly to `/index.html` without 404 errors.
+
+---
+
+## 🔒 Privacy & Data Sovereignty
+
+OBSESSION is built with privacy as a foundational principle:
+- **Zero Third-Party Trackers:** No analytics trackers, no telemetry, and no cookies.
+- **Client-Side Only:** Your data never leaves your device or browser unless you explicitly choose to export it.
+- **Full Portability:** You can export your entire history as a JSON backup at any time from **Settings**, and restore it on any device.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
