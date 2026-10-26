@@ -1,16 +1,12 @@
 # OBSESSION — Personal Habit & Challenge Tracking Workspace
 
 [![Deployed on Netlify](https://img.shields.io/badge/Deployed%20on-Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://frolicking-toffee-eec94b.netlify.app)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-059669?style=for-the-badge&logo=google-chrome&logoColor=white)](https://frolicking-toffee-eec94b.netlify.app)
+
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Privacy First](https://img.shields.io/badge/Data-100%25_Local_Storage-8B5CF6?style=for-the-badge)](https://frolicking-toffee-eec94b.netlify.app)
 [![Architecture PDF](https://img.shields.io/badge/Architecture_PDF-Download_Guide-18181b?style=for-the-badge&logo=adobeacrobatreader&logoColor=red)](https://frolicking-toffee-eec94b.netlify.app/OBSESSION_Architecture_and_Interview_Guide.pdf)
-
-> 🚀 **Live Application:** [https://frolicking-toffee-eec94b.netlify.app](https://frolicking-toffee-eec94b.netlify.app)  
-> 📄 **Architecture & Interview Guide (PDF):** [Download 6-Page Handbook](https://frolicking-toffee-eec94b.netlify.app/OBSESSION_Architecture_and_Interview_Guide.pdf)  
-> *A high-performance personal operating system and habit transformation workspace combining the structured database feel of Notion with the sleek, high-craft aesthetics of Linear.*
 
 ---
 
@@ -29,11 +25,7 @@ Rather than relying on generic to-do lists or rigid habit apps, OBSESSION acts a
 
 ---
 
-## 🌐 Live Demo
 
-The project is continuously deployed on **Netlify**:
-
-👉 **[https://frolicking-toffee-eec94b.netlify.app](https://frolicking-toffee-eec94b.netlify.app)**
 
 ---
 
